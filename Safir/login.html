@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./assets/img/Safir.png">
+    <link rel="stylesheet" href="/assets/css/fontawesome-6.7.2/all.min.css">
+    <title>ورود</title>
+
+    <style>
+        /* Fonts */
+        @font-face {
+            font-family: 'Vazir';
+            src:
+                url('/assets/font/Vazir/Vazir.woff2') format('woff2'),
+                url('/assets/font/Vazir/Vazir.woff') format('woff'),
+                url('/assets/font/Vazir/Vazir.ttf') format('truetype'),
+                url('/assets/font/Vazir/Vazir.eot') format('embedded-opentype');
+        }
+
+        @font-face {
+            font-family: 'Cropar';
+            src:
+                url('/assets/font/Cropar/Cropar.otf') format('opentype');
+        }
+
+        /* Header */
+        header {
+            font-size: 28px;
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            display: none;
+            top: 10px;
+            right: 5px;
+            position: fixed;
+            background-color: #bd07e1c4;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            font-family: 'Vazir';
+        }
+
+        .tooltip-message {
+            margin-top: 40px;
+        }
+
+        .password:hover .tooltip {
+            display: block;
+        }
+
+        .username:hover .tooltip {
+            display: block;
+        }
+
+        /* Form */
+        .container {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            column-gap: 30px;
+            background: linear-gradient(to right, #300342, #080236);
+        }
+
+        .form {
+            position: absolute;
+            max-height: 100%;
+            width: 100%;
+            padding: 30px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            background: linear-gradient(to right, #300342, #080236);
+        }
+
+        .form .field {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 6px;
+        }
+
+        .field input,
+        .field button {
+            height: 100%;
+            width: 100%;
+            border: none;
+            font-size: 16px;
+            font-weight: 400;
+            border-radius: 6px;
+            direction: rtl;
+        }
+
+        .field input {
+            outline: none;
+            padding: 0 15px;
+            border: 1px solid#CACACA;
+            background-color: lavender;
+        }
+
+        .field input:focus {
+            border-bottom-width: 2px;
+        }
+
+        .eye-icon {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #8b8b8b;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .field button {
+            color: #fff;
+            background-color: #123bf3;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .field button:hover {
+            background-color: #3155f5;
+            color: yellow;
+        }
+
+        .form-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .form-link span,
+        .form-link a {
+            font-size: 14px;
+            font-weight: 400;
+            color: #232836;
+        }
+
+        .form a {
+            color: cyan;
+            text-decoration: none;
+        }
+
+        .form-content a:hover {
+            color: yellow;
+        }
+
+        .form-content h2 {
+            color: rgb(40 245 219);
+            font-size: 55px;
+            font-family: 'Cropar';
+        }
+
+        #registerForm input::placeholder {
+            text-align: right;
+        }
+
+        .user-pass {
+            direction: rtl;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Responsive */
+		@media screen and (max-width : 900px) {
+            /* Form */
+            .form-content h2{
+                font-size: 50px;
+            }
+
+            .form-content .text{
+                font-size: 25px;
+            }
+
+            .field input,
+            .field button {
+                height: 45px;
+                font-size: 15px;
+            }
+
+            .form-link span,
+            .form-link a {
+                font-size: 16px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .fadeInLeft {
+            animation: fadeInLeft 1s ease-in-out;
+        }
+
+        /* Global */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir';
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        *:focus {
+            outline: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Global Scripts -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+
+    <!-- Form -->
+    <section class="container forms">
+
+        <!-- Login Form -->
+        <div class="form login">
+            <div class="form-content">
+
+                <!-- Header -->
+                <header>
+                    <h2 dir="rtl">
+                        Safir
+                    </h2>
+                    <div class="text" style="margin-top: 15px; margin-bottom: 10px;">
+                        <span style="color: yellow;">ورود</span>
+                    </div>
+                </header>
+
+                <!-- Login Form -->
+                <form id="loginForm">
+
+                    <!-- Username-->
+                    <div dir="ltr" class="field input-field">
+                        <input type="text" placeholder="نام کاربری" id="loginUser">
+                    </div>
+
+                    <!-- Password -->
+                    <div dir="ltr" class="field input-field">
+                        <input type="password" placeholder="رمز عبور" id="loginPass">
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="field button-field">
+                        <button type="submit" id="login"><span style="font-weight: bold;">ورود</span></button>
+                    </div>
+                </form>
+
+                <!-- Register -->
+                <div dir="rtl" class="form-link">
+                    <span style="color: white;">اکانتی ندارید؟ <a href="/register" class="link signup-link">ثبت نام کنید</a></span>
+                </div>
+            </div>
+        </div>
+    </section> 
+    
+    <script>
+        $(document).ready(function() {
+            $('#login').click(function(e) {
+                e.preventDefault();
+                const username = $('#loginUser').val();
+                const password = $('#loginPass').val();
+
+                if (!username && !password) {
+                    const errorMessage = $('#tooltip-message');
+                    errorMessage.text('لطفاً نام کاربری و رمز عبور را وارد نمایید').show().addClass('fadeInLeft tooltip-message');
+                    errorMessage.data('refreshed', false);
+                    if (!errorMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            errorMessage.hide();
+                            loadMessages();
+                            errorMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                    return;
+                }
+            
+                if (!username) {
+                    const errorMessage = $('#tooltip-message');
+                    errorMessage.text('لطفاً نام کاربری را وارد نمایید').show().addClass('fadeInLeft tooltip-message');
+                    errorMessage.data('refreshed', false);
+                    if (!errorMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            errorMessage.hide();
+                            loadMessages();
+                            errorMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                    return;
+                }
+
+                if (!password) {
+                    const errorMessage = $('#tooltip-message');
+                    errorMessage.text('لطفاً رمز عبور را وارد نمایید').show().addClass('fadeInLeft tooltip-message');
+                    errorMessage.data('refreshed', false);
+                    if (!errorMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            errorMessage.hide();
+                            loadMessages();
+                            errorMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                    return;
+                }
+            
+                $.post('/login', { username, password }, function(response) {
+                    const token = response.token;
+                
+                    if (token) {
+                        localStorage.setItem('authToken', token);
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        displayErrorMessage('خطایی رخ داده است. لطفاً دوباره تلاش کنید.');
+                    }
+                }).fail(function(jqXHR) {
+                    const errorText = jqXHR.responseText || 'ارتباط با سرور برقرار نشد';
+                    displayErrorMessage(errorText);
+                });
+                
+                function displayErrorMessage(message) {
+                    const errorMessage = $('#tooltip-message');
+                    errorMessage.text(message).show().addClass('fadeInLeft tooltip-message');
+                    errorMessage.data('refreshed', false);
+                    if (!errorMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            errorMessage.hide();
+                            errorMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Tooltip -->
+    <div id="tooltip-message" class="tooltip fadeInLeft"></div>
+    <div id="error-register" class="tooltip fadeInLeft"></div>
+</body>
+</html>
