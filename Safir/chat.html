@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./assets/img/Safir.png">
+    <link href="./assets/css/syntax-highlighting/blackboard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/fontawesome-6.7.2/all.min.css">
+    <title>چت با سفیر</title>
+    <style>
+
+        /* Fonts */
+        @font-face {
+            font-family: 'Vazir';
+            src:
+                url('./assets/font/Vazir/Vazir.woff2') format('woff2'),
+                url('//assets/font/Vazir/Vazir.woff') format('woff'),
+                url('./assets/font/Vazir/Vazir.ttf') format('truetype'),
+                url('./assets/font/Vazir/Vazir.eot') format('embedded-opentype');
+        }
+
+        @font-face {
+            font-family: 'Dana';
+            src:
+                url('./assets/font/Dana/Dana-Bold.woff2') format('woff2'),
+                url('./assets/font/Dana/Dana-DemiBold.woff2') format('woff2'),
+                url('./assets/font/Dana/Dana-ExtraBlack.woff2') format('woff2'),
+                url('./assets/font/Dana/Dana-ExtraBold.woff2') format('woff2'),
+                url('./assets/font/Dana/Dana-Light.woff2') format('woff2'),
+                url('./assets/font/Dana/Dana-Medium.woff2') format('woff2'),
+                url('./assets/font/Dana/Dana-Regular.woff2') format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Cropar';
+            src:
+                url('./assets/font/Cropar/Cropar.otf') format('opentype');
+        }
+
+        /* Logo */
+        .logo h2 {
+            text-align: center;
+            color: aqua;
+            font-family: 'Vazir';
+        }
+
+        .logoText {
+            color: #d6ff00;
+            font-size: 45px;
+            font-family: 'Cropar';
+            cursor: pointer;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            display: none;
+            top: 20px;
+            right: 20px;
+            position: fixed;
+            background-color: #bd07e1c4;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            font-family: 'Vazir';
+        }
+
+        .settings:hover .tooltip {
+            display: block;
+        }
+
+        /* Button */
+        button {
+            margin: 5px;
+            direction: rtl;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px 10x 5px 10px;
+            font-size: 15px;
+            font-family: 'Vazir';
+            cursor: pointer;
+        }
+
+        /* Settings */
+        .settings {
+            width: 40px;
+            height: 40px;
+            position: fixed;
+            margin-top: 8px;
+            margin-left: 10px;
+            border-radius: 50%;
+            background: #004bed8e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            z-index: 1;
+        }
+
+        .settings:hover {
+            background: rgba(111, 0, 255, 0.616);
+        }
+
+        #newChatButton {
+            top: 8px;
+            left: 8px;
+            font-family: 'Arial';
+            font-weight: bold; 
+            color: yellow;
+            background-color: rgba(0, 0, 128, 0.87);
+        }
+
+        #archiveButton {
+            top: 75px;
+            left: 8px;
+            font-family: 'Arial';
+            font-weight: bold; 
+            color: yellow;
+            background-color: rgba(0, 0, 128, 0.87);
+        }
+
+        /* Navigation */
+        #jumpFirst {
+            top: 303px;
+            left: 8px;
+            font-family: 'Arial';
+            font-weight: bold; 
+            color: yellow;
+            background-color: rgba(0, 0, 128, 0.87);
+        }
+
+        #jumpLast {
+            top: 355px;
+            left: 8px;
+            font-family: 'Arial';
+            font-weight: bold; 
+            color: yellow;
+            background-color: rgba(0, 0, 128, 0.87);
+        }
+        
+        /* Theme */
+        #bg {
+            background: url("./assets/img/background/background.jpg") no-repeat;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -o-transform: translateX(-50%) translateY(-50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            background-size: cover;
+        }
+
+        /* ChatBot */
+        #chatBotContent {
+            background-color: #0f072feb;
+            margin-top: 10px;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .safir {
+            width: 65px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+        }
+
+        .safirText {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 20px;
+            color: aqua;
+            font-family: 'Dana';
+        }
+        
+        .fa-paper-plane {
+            color: #00ff97 !important;
+            margin-top: -13px !important;
+            margin-right: 12px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            bottom: 9px;
+            left: 50%;
+            width: 90%;
+            background: #020616fa;
+            padding: 10px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            transform: translateX(-50%);
+        }
+
+        #sendMessage {
+            cursor: pointer;
+            margin-left: 10px;
+            color: white;
+            font-size: 20px;
+            margin-top: -17px;
+        }
+
+        #messageInput {
+            width: 100%;
+            min-height: 40px;
+            max-height: 200px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-family: 'Dana';
+            background: none;
+            color: #00ff97;
+            font-size: 16px;
+            resize: none;
+            overflow-y: hidden;
+            text-align: justify;
+        }
+
+        #messageDisplay {
+            width: 100%;
+            background-color: inherit;
+            border-radius: 5px;
+            overflow-y: auto;
+            color: white;
+            text-align: right;
+            font-size: 18px;
+            text-align: justify;
+            line-height: 2rem;
+            flex-grow: 1;
+        }
+
+
+        #messageInput::placeholder {
+            color: aqua;
+        }
+
+        .user-message {
+            color: yellow;
+        }
+
+        .bot-message {
+            color: white;
+            max-width: 100%;
+        }
+
+        .date {
+            color: cyan;
+        }
+
+        .chat-content {
+            display: none;
+        }
+
+        .chat-content.hidden {
+            display: none;
+        }
+
+        #welcomeMessage,
+        #archiveWindow,
+        #chatWindow {
+            text-align: center;
+            color: #00ff97;
+            font-family: 'Dana';
+            flex-direction: column;
+            width: 100%;
+            max-width: 90%;
+            margin: auto;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            min-height: 100px;
+            margin-bottom: 100px;
+        }
+
+        .avatar {
+            width: 30px;
+            border-radius: 50%;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .message {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 17px;
+        }
+
+        #customPopup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            padding: 20px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            background-color: #090d4be8;
+            border-radius: 10px;
+            border: 1px solid navy;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            transition: all 0.3s ease;
+            max-width: 85%;
+        }
+
+        #customPopup.active {
+            display: block;
+        }
+
+        #customPopup h2 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            color: #00ff97;
+            text-align: center;
+            font-family: 'Vazir';
+        }
+
+        #customPopup label {
+            font-size: 16px;
+            color: white;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-family: 'Vazir';
+            direction: rtl;
+        }
+
+        #customPopup input[type="text"],
+        #customPopup select {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Vazir';
+            background-color: paleturquoise;
+            direction: rtl;
+        }
+
+        #chatModel {
+            font-family: 'Vazir';
+        }
+
+        #customPopup input[type="text"]:focus,
+        #customPopup select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        #customPopup button {
+            background-color: #004bed;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            float: right;
+        }
+
+        #customPopup button:hover {
+            background-color: #0081f5;
+        }
+
+        #archiveContainer {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #0f072fe8;
+            border: 1px solid #47208b;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 85%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            display: none;
+            z-index: 0;
+        }
+
+        #archiveContainer h3 {
+            color: aqua;
+            text-align: center;
+            font-family: 'Vazir';
+        }
+
+        .archive-item {
+            border: 1px solid #673ab7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to right, #440750b5, #13083eb8);
+        }
+
+        .archive-item h4 {
+            color: #00ff97;
+            margin-top: 5px;
+        }
+
+        .archive-item p {
+            color: aqua;
+        }
+
+        .archive-item img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .safir_icon {
+            width: 40px;
+            border-radius: 50px;
+            border: 1px solid lavender;
+            padding: 5px;
+            background: lavender;
+            margin-top: -25px;
+        }
+
+        .copyCode:hover {
+            color: yellow !important;
+            transform: scale(1.05);
+        }
+
+        .archiveContinue:hover {
+            color: yellow !important;
+            transform: scale(1.05);
+        }
+
+        .archiveDelete:hover {
+            color: yellow !important;
+            transform: scale(1.05);
+        }
+
+        .copy-button:hover {
+            color: yellow !important;
+            transform: scale(1.05);
+        }
+
+        .trash-button:hover {
+            color: yellow !important;
+            transform: scale(1.05);
+        }
+
+        #confirmationProjectPopup {
+            margin-top: -30%;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            text-align: center;
+            background-color: lavender;
+            border: 1px solid black;
+            border-radius: 10px;
+            direction: rtl;
+            font-family: 'Vazir';
+            margin: auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            margin-top: 250px;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: fixed;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: lavender;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .loading {
+            animation: spin 1s linear infinite;
+            color: cyan;
+        }
+
+        .language-title {
+            background-color: #0B1022;
+            padding: 10px 10px 10px 10px;
+            border: 1px solid #1e2b58;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Arial';
+            font-weight: bold;
+            direction: ltr;
+            text-align: left;
+            color: white;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .language-title br {
+            display: block;
+        }
+
+        .code-block {
+            background-color: #0B1022;
+            border: 1px solid #1e2b58;
+            border-radius: 10px;
+            padding: 15px 15px 0px 15px;
+            font-family: 'Consolas';
+            direction: ltr;
+            text-align: left;
+            line-height: 2rem;
+            margin-bottom: 0;
+            margin-top: 5px;
+            font-weight: 100;
+            white-space: pre;
+            overflow-x: auto;
+            max-width: 100vw;
+            counter-reset: line;
+        }
+
+        pre[class*="language-"] {
+            background: #161c3d !important;
+            font-size: 10px !important;
+        }
+
+        /* -- Responsive -- */
+        @media screen and (max-width : 900px) {
+            /* Logo */
+            .logoText {
+                font-size: 40px;
+            }
+            
+            .logo h2 {
+                font-size: 18px;
+            }
+
+            /* settings */
+            .settings {
+                width: 33px;
+                height: 33px;
+                font-size: 16px;
+            }
+
+            #newChatButton {
+                top: 5px;
+            }
+
+            #archiveButton {
+                top: 60px;
+            }
+
+            /* Navigation */
+            #jumpFirst {
+                top: 256px;
+            }
+
+            #jumpLast {
+                top: 302px;
+            }
+
+            #welcomeMessage,
+            #archiveWindow,
+            #chatWindow {
+                font-size: 14px;
+            }
+
+            /* ChatBot */
+            .safir {
+                width: 50px;
+            }
+
+            .safir_icon {
+                width: 35px;
+            }
+
+            .safirText {
+                font-size: 18px;
+            }
+
+            .message {
+                font-size: 15px;
+                max-width: 100%;
+                overflow-x: hidden;
+            }
+
+            .popup-content {
+                margin-top: 200px;
+            }
+
+            #messages {
+                width: 93.7%;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .fadeInLeft {
+            animation: fadeInLeft 1s ease-in-out;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Global */
+        *:focus {
+            outline: none;
+        }
+        * {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Scripts -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/wow.min.js"></script>
+    <script src="/assets/js/syntax-highlighting/rainbow.min.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/html.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/css.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/javascript.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/json.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/c.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/csharp.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/php.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/python.js"></script>
+    <script src="/assets/js/syntax-highlighting/language/generic.js"></script>
+
+    <!-- Theme -->
+    <div id="bg"></div>
+    
+    <!-- ** Settings ** -->
+    <!-- Header -->
+    <div style="background-color: #0f072feb; padding-top: 2px; padding-bottom: 1px; border: none; border-radius: 10px;">
+        <div class="logo">
+            <h2 dir="rtl">
+                    <span id="hide" class="logoText">Safir</span>
+                <br>
+                ربات گفتگوی سفیر
+            </h2>
+        </div>
+    </div>
+    
+    <div id="chatBotContent" class="tab-content hidden">
+        <!-- Welcome -->
+        <div id="welcomeMessage">
+            <h2 style="font-weight: 100;">خوش آمدید <span style="color: cyan;" id="username"></span></h2>
+            <h3 style="font-weight: 100;"><span style="color: #e9fff6;">سفیر</span> هستم؛ <span style="color: yellow;">پیام‌رسان</span> شما</h3>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                try {
+                    const token = localStorage.getItem('authToken');
+
+                    const response = await fetch('/user', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        credentials: 'include',
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('خطا در واکشی اطلاعات کاربر');
+                    }
+
+                    const data = await response.json();
+                    
+                    document.getElementById('username').textContent = data.username;
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        </script>
+
+        <!-- New Chat -->
+        <div id="newChatButton" class="settings">
+            <i class="fas fa-message presentation"></i>
+            <span class="tooltip fadeInLeft" style="font-size: 14; font-weight: 100;">مکالمه جدید</span>
+        </div>
+
+        <div id="customPopup" class="hidden">
+            <h2>ایجاد مکالمه جدید</h2>
+            <label for="chatTitle">عنوان:</label>
+            <input type="text" id="chatTitle" required>
+            
+            <label for="chatModel">مدل:</label>
+            <input type="text" id="chatModel" list="modelOptions" required>
+            <datalist id="modelOptions">
+                <option value="gemini-1.5-flash">
+                <option value="gemini-2.0-flash-lite">
+                <option value="mistral-small-2503">
+                <option value="meta.llama3-1-8b-instruct-v1:0">
+            </datalist>
+
+            <label for="apiKey">کلید API (اختیاری):</label>
+            <input type="text" id="apiKey" placeholder="بدون وارد کردن، مقدار پیش‌فرض استفاده می‌شود.">
+
+            <label for="baseURL">آدرس پایه API (اختیاری):</label>
+            <input type="text" id="baseURL" placeholder="بدون وارد کردن، مقدار پیش‌فرض استفاده می‌شود.">
+
+
+            <button id="startChat" style="margin-right: -2px;">شروع</button>
+            <button id="closePopup">بستن</button>
+        </div>
+
+        <script>
+            document.getElementById('newChatButton').addEventListener('click', function() {
+                openPopup();
+            });
+
+            document.getElementById('closePopup').addEventListener('click', function() {
+                closePopup();
+            });
+
+            function openPopup() {
+                document.getElementById('customPopup').classList.add('active');
+            }
+
+            function closePopup() {
+                document.getElementById('customPopup').classList.remove('active');
+            }
+        </script>
+
+        <div id="chatWindow" class="chat-content hidden">
+            <h2></h2>
+            <div id="messageDisplay"></div>
+            
+            <div class="input-container" id="inputContainer">
+                <span id="sendMessage" style="cursor: pointer;">
+                    <i id="sendIcon" class="fas fa-paper-plane"></i>
+                </span>
+                <textarea id="messageInput" placeholder="پیام خود را وارد کنید..."></textarea>
+            </div>
+
+            <!-- Nvigation -->
+            <div id="jumpFirst" class="settings">
+                <i class="fa-solid fa-chevron-circle-up"></i>
+                <span class="tooltip fadeInLeft" style="font-size: 14; font-weight: 100;">اولین پیغام</span>
+            </div>
+
+            <div id="jumpLast" class="settings">
+                <i class="fa-solid fa-chevron-circle-down"></i>
+                <span class="tooltip fadeInLeft" style="font-size: 14; font-weight: 100;">آخرین پیغام</span>
+            </div>
+        </div>
+
+        <script>
+            const messageDisplay = document.getElementById('messageDisplay');
+            const jumpFirst = document.getElementById('jumpFirst');
+            const jumpLast = document.getElementById('jumpLast');
+
+            function addMessage(content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.textContent = content;
+                messageDisplay.appendChild(messageDiv);
+                messageDiv.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            jumpFirst.addEventListener('click', () => {
+                const firstMessage = messageDisplay.firstElementChild;
+                if (firstMessage) {
+                    firstMessage.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
+            jumpLast.addEventListener('click', () => {
+                const lastMessage = messageDisplay.lastElementChild;
+                if (lastMessage) {
+                    lastMessage.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            
+            const lastMessage = messageDisplay.lastElementChild;
+            if (lastMessage) {
+                lastMessage.scrollIntoView({ behavior: 'smooth' });
+            }
+        </script>
+
+        <script>
+            document.getElementById('messageInput').addEventListener('input', function () {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+        </script>
+
+        <div id="confirmationMessagePopup" class="popup" style="display: none;">
+            <div class="popup-content">
+                <br>
+                <p>آیا از حذف این پیغام، اطمینان دارید؟</p>
+                <button style="background-color: #ff4c88;" id="confirmMessageDelete">بله</button>
+                <button style="background-color: #3cef43;" id="closeMessagePopup">لغو</button>
+            </div>
+        </div>
+
+        <script>
+            let currentSafirId = null;
+
+            function showWelcome() {
+                document.getElementById('welcomeMessage').style.display = 'block';
+                document.getElementById('chatWindow').style.display = 'none';
+                document.getElementById('customPopup').classList.add('hidden');
+            }
+
+            function showChatWindow(chatTitle) {
+                document.getElementById('welcomeMessage').style.display = 'none';
+                document.getElementById('chatWindow').style.display = 'block';
+                document.getElementById('customPopup').classList.add('hidden');
+
+                document.querySelector('#chatWindow h2').innerText = chatTitle;
+            }
+
+            document.getElementById('newChatButton').onclick = function() {
+                document.getElementById('customPopup').classList.remove('hidden');
+            };
+
+            document.getElementById('startChat').onclick = async function () {
+                event.preventDefault();
+
+                const titleInput = document.getElementById('chatTitle');
+                const modelInput = document.getElementById('chatModel');
+                const apiKeyInput = document.getElementById('apiKey');
+                const baseURLInput = document.getElementById('baseURL');
+
+                const title = titleInput?.value?.trim();
+                const model = modelInput?.value;
+                const apiKey = apiKeyInput?.value?.trim();
+                const baseURL = baseURLInput?.value?.trim();
+
+                if (!title) {
+                    const successMessage = $('#tooltip-message');
+                    successMessage.text("لطفاً عنوان را وارد کنید").show().addClass('fadeInLeft tooltip-message');
+                    successMessage.data('refreshed', false);
+
+                    if (!successMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            successMessage.hide();
+                            successMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                    return;
+                }
+
+                if (!model) {
+                    const successMessage = $('#tooltip-message');
+                    successMessage.text("لطفاً نام مدل را وارد کنید").show().addClass('fadeInLeft tooltip-message');
+                    successMessage.data('refreshed', false);
+
+                    if (!successMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            successMessage.hide();
+                            successMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                    return;
+                }
+
+                const token = localStorage.getItem('authToken');
+
+                try {
+                    const response = await fetch('/new', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ title, model, apiKey, baseURL })
+                    });
+
+                    if (!response.ok) {
+                        const errorMessage = $('#tooltip-message');
+                        errorMessage.text("خطا در ایجاد مکالمه").show().addClass('fadeInLeft tooltip-message');
+                        errorMessage.data('refreshed', false);
+
+                        if (!errorMessage.data('refreshed')) {
+                            setTimeout(function() {
+                                errorMessage.hide();
+                                errorMessage.data('refreshed', true);
+                            }, 5000);
+                        }
+                        return;
+                    }
+
+                    const newChat = await response.json();
+                    currentSafirId = newChat._id;
+                    closePopup();
+                    showChatWindow(newChat.title);
+                    displayMessages(newChat.dialogs, newChat.icon);
+                } catch (error) {
+                    console.error(error);
+                    alert('خطا در ایجاد مکالمه جدید.');
+                }
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const sendButton = document.getElementById('sendMessage');
+                const messageInput = document.getElementById('messageInput');
+                const sendIcon = document.getElementById('sendIcon');
+                const inputContainer = document.getElementById('inputContainer');
+
+                let lastMessageText = '';
+
+                sendButton.addEventListener('click', sendMessage);
+
+                async function sendMessage() {
+                    const message = messageInput.value.trim();
+                    if (!message || !currentSafirId || message === lastMessageText) return;
+
+                    lastMessageText = message;
+
+                    const token = localStorage.getItem('authToken');
+                    sendButton.classList.add('disabled');
+                    messageInput.disabled = true;
+
+                    sendIcon.classList.remove('fa-paper-plane');
+                    sendIcon.classList.add('fa-spinner', 'loading');
+
+                    try {
+                        const response = await fetch(`/message/${currentSafirId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ text: message })
+                        });
+
+                        if (!response.ok) throw new Error('ارسال ناموفق');
+
+                        const chatData = await response.json();
+                        displayMessages(chatData.dialogs, chatData.icon);
+                        messageInput.value = '';
+                        messageInput.style.height = 'auto'; // Reset height of textarea
+                        const lastMessage = messageDisplay.lastElementChild;
+                        if (lastMessage) {
+                            lastMessage.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    } catch (error) {
+                        console.error('خطا در ارسال پیام:', error);
+                    } finally {
+                        sendIcon.classList.remove('fa-spinner', 'loading');
+                        sendIcon.classList.add('fa-paper-plane');
+
+                        sendButton.disabled = false;
+                        messageInput.disabled = false;
+                        messageInput.focus();
+
+                        // Reset the input-container size after sending message
+                        inputContainer.style.height = 'auto'; // Change as needed to reset to initial height
+
+                        sendButton.addEventListener('click', () => {
+                            sendMessage();
+                        });
+                    }
+                }
+
+                messageInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const cursorPos = this.selectionStart;
+                        const value = this.value;
+                        this.value = value.substring(0, cursorPos) + "\n" + value.substring(cursorPos);
+                        this.selectionEnd = cursorPos + 1;
+                    }
+                });
+            });
+
+            async function displayMessages(dialogs, iconPath) {
+                const messageDisplay = document.getElementById('messageDisplay');
+                messageDisplay.innerHTML = '';
+
+                for (const dialog of dialogs) {
+                    let modelAvatar;
+
+                    if (dialog.sender === 'Bot') {
+                        modelAvatar = iconPath;
+                    } else {
+                        modelAvatar = '/assets/img/ai/Safir.png';
+                    }
+
+                    const formattedMessage = textformat(dialog.message);
+
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'message';
+                    messageDiv.dataset.id = dialog._id;
+                    messageDiv.innerHTML = `
+                        <div class="message-content ${typeMessage(dialog.sender)}">
+                            <img src="${modelAvatar}" alt="Avatar" class="avatar">
+                            ${formattedMessage}
+                            <button class="copy-button" style="background-color: unset; color: aqua; border: 1px solid aqua; border-radius: 5px;">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                            <button class="deleteMessage trash-button" style="background-color: unset; color: aqua; border: 1px solid aqua; border-radius: 5px;">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    const copyButton = messageDiv.querySelector('.copy-button');
+                    copyButton.addEventListener('click', () => {
+                        navigator.clipboard.writeText(dialog.message)
+                            .then(() => {
+                                const successMessage = $('#tooltip-message');
+                                successMessage.text("کپی شد").show().addClass('fadeInLeft tooltip-message');
+                                successMessage.data('refreshed', false);
+
+                                if (!successMessage.data('refreshed')) {
+                                    setTimeout(function() {
+                                        successMessage.hide();
+                                        successMessage.data('refreshed', true);
+                                    }, 5000);
+                                }
+                                return;
+                            })
+                            .catch(err => {
+                                console.error('خطا در کپی پیام: ', err);
+                            });
+                    });
+
+                    const deleteButton = messageDiv.querySelector('.deleteMessage');
+                    deleteButton.addEventListener('click', () => {
+                        const confirmationPopup = document.getElementById('confirmationMessagePopup');
+                        confirmationPopup.style.display = 'block';
+
+                        const confirmDeleteButton = document.getElementById('confirmMessageDelete');
+                        confirmDeleteButton.onclick = async () => {
+                            const messageId = messageDiv.dataset.id;
+
+                            const token = localStorage.getItem('authToken');
+
+                            try {
+                                const response = await fetch(`/message/${messageId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Authorization': `Bearer ${token}`,
+                                        'Content-Type': 'application/json'
+                                    },
+                                });
+
+                                if (response.ok) {
+                                    messageDiv.remove();
+                                    confirmationPopup.style.display = 'none';
+                                    const successMessage = $('#tooltip-message');
+                                    successMessage.text("حذف شد").show().addClass('fadeInLeft tooltip-message');
+                                    successMessage.data('refreshed', false);
+
+                                    if (!successMessage.data('refreshed')) {
+                                        setTimeout(function() {
+                                            successMessage.hide();
+                                            successMessage.data('refreshed', true);
+                                        }, 5000);
+                                    }
+                                    return;
+                                } else {
+                                    console.error('خطا در حذف پیام');
+                                }
+                            } catch (error) {
+                                console.error('خطا در حذف پیام: ', error);
+                            }
+                        };
+
+                        const closePopupButton = document.getElementById('closeMessagePopup');
+                        closePopupButton.onclick = () => {
+                            confirmationPopup.style.display = 'none';
+                        };
+                    });
+
+                    messageDisplay.appendChild(messageDiv);
+                }
+            }
+
+            function typeMessage(sender) {
+                return sender === 'Bot' ? 'bot-message' : 'user-message';
+            }
+
+            function textformat(text) {
+                let message = text;
+
+                message = message.replace(/### (.*)/g, '<h3 style="color: cyan">$1</h3>');
+                message = message.replace(/^\s*(\d+)\. (.*)$/gm, '<p style="color: #e9fff6;">$1. <span>$2</span></p>');
+
+                message = message.replace(/```(.*?)\n([\s\S]*?)```/g, function (match, language, code) {
+                    const rawCode = code.trim();
+                    const escapedCode = rawCode.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+                    return `
+                        <div class="language-title">
+                            <span style="color: cyan;">${language}</span>
+                            <i class="fa-solid fa-copy copyCode" onclick="copyToClipboard(this)" data-raw="${encodeURIComponent(rawCode)}" style="color: cyan; cursor: pointer"></i>
+                            <pre class="code-block language-${language}" data-language="${language}" data-raw="${encodeURIComponent(rawCode)}">
+                            <code>${escapedCode}</code>
+                            </pre>
+                        </div>
+                    `;
+                });
+
+                setTimeout(() => {
+                    Rainbow.color();
+                }, 0);
+
+                message = message.replace(/\*\*(.*?)\*\*/g, '<span style="color: #00ff97;">$1</span>');
+                message = message.replace(/^\s*-\s+(.*)$/gm, '\n<p><span style="color: #e9fff6;">- $1</span></p>');
+                message = message.replace(/`(.*?)`/g, function(match, code) {
+                    const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    return `<code dir="ltr" style="padding: 5px; background-color: #250895a6; border-radius: 5px; color: yellow;">${escapedCode}</code>`;
+                });
+
+                message = message.replace(/\*\*(.*?)\*\*/g, '<span style="font-weight: bold; color: yellow">$1</span>');
+
+                message = message.replace(/__(.*?)__/g, '<span style="font-weight: bold; color: #dbc7ff">$1</span>');
+
+                message = message.replace(/^\s*---\s*$/gm, '<hr>');
+
+                message = message.replace(/(?:\[(.*?)\]\((.*?)\))/g, '<a href="$2" target="_blank" style="color: cyan; text-decoration: none;">$1</a>');
+
+                return message;
+            }
+
+            function formatCode(code) {
+                const lines = code.split('<br>');
+                
+                return lines
+                    .filter(line => line.trim() !== '')
+                    .map(line => `${line}`)
+                    .join('');
+            }
+
+            function copyToClipboard(element) {
+                let rawCode = decodeURIComponent(element.getAttribute('data-raw'));
+
+                if (!rawCode) {
+                    console.error("مقدار خام یافت نشد!");
+                    return;
+                }
+
+                navigator.clipboard.writeText(rawCode)
+                    .then(() => {
+                        const successMessage = $('#tooltip-message');
+                        successMessage.text("کپی شد").show().addClass('fadeInLeft tooltip-message');
+                        successMessage.data('refreshed', false);
+
+                        if (!successMessage.data('refreshed')) {
+                            setTimeout(function() {
+                                successMessage.hide();
+                                successMessage.data('refreshed', true);
+                            }, 5000);
+                        }
+                    })
+                    .catch(err => {
+                        console.error('خطا در کپی پیام: ', err);
+                    });
+            }
+        </script>
+
+        <!-- Arcive -->
+        <div id="archiveButton" class="settings">
+            <i class="fas fa-archive presentation"></i>
+            <span class="tooltip fadeInLeft" style="font-size: 14; font-weight: 100;">بایگانی مکالمات</span>
+        </div>
+
+        <div id="archiveContainer" style="display: none;">
+            <span class="close-button" id="closeArchivePopup">&times;</span>
+            <h3><img src="./assets/img/Safir.png" class="safir_icon">
+                <br>مکالمات اخیر شما
+            </h3>
+            <div id="archiveList"></div>
+        </div>
+
+        <div id="editPopup" class="popup" style="display: none;">
+            <div style="background-color: lavender; padding: 10px; border-radius: 5px;">
+                <h3 style="text-align: center; font-size: 16px">ویرایش عنوان</h3>
+                <input style="background-color: lavender; padding: 2px; font-family: 'Vazir'; border-radius: 5px; border: 1px solid gray;" type="text" id="editTitleInput" />
+                <button style="color: white; background-color: #2a00d1;" onclick="saveTitle()">ذخیره</button>
+                <button style="color: white; background-color: rgb(199, 20, 109);" onclick="closeTitlePopup()">بستن</button>
+            </div>
+        </div>
+
+        <div id="confirmationDialogPopup" class="popup" style="display: none;">
+            <div class="popup-content">
+                <br>
+                <p>آیا از حذف این مکالمه، مطمئن هستید؟</p>
+                <button style="background-color: #ff4c88;" id="confirmDialogDelete">بله</button>
+                <button style="background-color: #3cef43;" id="closeDialogPopup">لغو</button>
+            </div>
+        </div>
+
+        <script>
+            function closeArchivePopup() {
+                const archiveContainer = document.getElementById('archiveContainer');
+                archiveContainer.style.display = 'none';
+            }
+            document.getElementById('closeArchivePopup').onclick = closeArchivePopup;
+
+            document.getElementById('archiveButton').addEventListener('click', () => {
+                const archiveContainer = document.getElementById('archiveContainer');
+                const isVisible = archiveContainer.style.display === 'block';
+                
+                archiveContainer.style.display = isVisible ? 'none' : 'block';
+                
+                if (!isVisible) {
+                    loadArchivedChats();
+                }
+            });
+
+            async function loadArchivedChats() {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/safir/archive', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const archives = await response.json();
+                    const archiveList = document.getElementById('archiveList');
+                    archiveList.innerHTML = '';
+
+                    if (archives.length === 0) {
+                        archiveList.innerHTML = '<p style="color: white; font-weight: bold; text-align: center">گفتگوی ذخیره شده‌ای ندارید!</p>';
+                    } else {
+                        archives.forEach(chat => {
+                            const archiveDiv = document.createElement('div');
+                            archiveDiv.className = 'archive-item';
+
+                            const date = new Date(chat.lastUpdated).toLocaleString('fa-IR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: false
+                            });
+                            
+                            archiveDiv.innerHTML = `
+                                <h4>
+                                    ${chat.title}
+                                    <i class="fas fa-edit" style="cursor: pointer;" 
+                                    onmouseover="showTooltip(event, 'ویرایش عنوان')" 
+                                    onmouseout="hideTooltip()"
+                                    onclick="openEditPopup('${chat._id}', '${chat.title}')"></i>
+                                </h4>
+                                <p style="font-weight: bold;">
+                                    <img src="${chat.icon}" alt="Model Icon"> ${chat.model}
+                                </p>
+                                <p style="font-size: 12px; color: #e9fff6; font-size: 13px;"><i class="fas fa-calendar" style="color: #0087ff;"></i> ${date} <i class="fas fa-clock" style="color: #0087ff;"></i></p>
+                                <div style="display: flex; gap: 10px; margin-bottom: -3px;">
+                                    <button onclick="openArchivedChat('${chat._id}')" style="color: white; background-color: blue;" class="archiveContinue">ادامه</button>
+                                    <button onclick="showDeleteConfirmation('${chat._id}')" style="color: white; background-color: rgb(199, 20, 109);" class="archiveDelete">حذف</button>
+                                </div>
+                            `;
+                            archiveList.appendChild(archiveDiv);
+                        });
+                    }
+                } else {
+                    console.error('خطا در بارگذاری آرشیو');
+                }
+            }
+
+            function showTooltip(event, message) {
+                const tooltip = document.getElementById('tooltip-message');
+                tooltip.innerText = message;
+                tooltip.style.display = 'block';
+            }
+
+            function hideTooltip() {
+                const tooltip = document.getElementById('tooltip-message');
+                tooltip.style.display = 'none';
+            }
+
+            function openEditPopup(chatId, currentTitle) {
+                const popup = document.getElementById('editPopup');
+                const titleInput = document.getElementById('editTitleInput');
+                titleInput.value = currentTitle;
+                popup.style.display = 'flex';
+                popup.setAttribute('data-chat-id', chatId);
+            }
+
+            async function saveTitle() {
+                const popup = document.getElementById('editPopup');
+                const chatId = popup.getAttribute('data-chat-id');
+                const newTitle = document.getElementById('editTitleInput').value;
+
+                const token = localStorage.getItem('authToken');
+                const response = await fetch(`/archive/title/${chatId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: newTitle })
+                });
+
+                if (response.ok) {
+                    closePopup();
+                    loadArchivedChats();
+                    const successMessage = $('#tooltip-message');
+                    successMessage.text("عنوان مکالمه با موفقیت تغییر یافت").show().addClass('fadeInLeft tooltip-message');
+                    successMessage.data('refreshed', false);
+
+                    if (!successMessage.data('refreshed')) {
+                        setTimeout(function() {
+                            successMessage.hide();
+                            successMessage.data('refreshed', true);
+                        }, 5000);
+                    }
+                    return;
+                    loadArchivedChats();
+                } else {
+                    console.error('Error updating title');
+                }
+            }
+
+            function closeTitlePopup() {
+                const popup = document.getElementById('editPopup');
+                popup.style.display = 'none';
+            }
+
+            function showDeleteConfirmation(chatId) {
+                const popup = document.getElementById('confirmationDialogPopup');
+                popup.style.display = 'block';
+
+                document.getElementById('closeDialogPopup').onclick = function() {
+                    popup.style.display = 'none';
+                };
+
+                document.getElementById('confirmDialogDelete').onclick = function() {
+                    deleteArchivedChat(chatId);
+                    popup.style.display = 'none';
+                };
+            }
+
+            async function deleteArchivedChat(id) {
+                const token = localStorage.getItem('authToken');
+
+                const response = await fetch(`/safir/archive/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const successMessage = $('#tooltip-message');
+
+                if (response.ok) {
+                    successMessage.text('مکالمه حذف شد').show().addClass('fadeInLeft tooltip-message');
+                    successMessage.data('refreshed', false);
+                    loadArchivedChats();
+                } else {
+                    successMessage.text('خطا در حذف مکالمه.').show().addClass('fadeInLeft tooltip-message');
+                    successMessage.data('refreshed', false);
+                }
+
+                if (!successMessage.data('refreshed')) {
+                    setTimeout(function() {
+                        successMessage.hide();
+                        successMessage.data('refreshed', true);
+                    }, 5000);
+                }
+            }
+
+            async function openArchivedChat(id) {
+                const token = localStorage.getItem('authToken');
+
+                const response = await fetch(`/safir/archive/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const chatData = await response.json();
+                    currentSafirId = chatData._id;
+                    showChatWindow(chatData.title);
+                    displayMessages(chatData.dialogs, chatData.icon);
+
+                    document.getElementById('archiveContainer').style.display = 'none';
+                } else {
+                    alert('خطا در بارگذاری گفتگو');
+                }
+            }
+        </script>
+    </div>
+
+    <!-- Tooltip -->
+    <div id="tooltip-message" class="tooltip fadeInLeft"></div>
+</body>
+</html>
